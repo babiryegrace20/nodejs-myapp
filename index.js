@@ -1,9 +1,20 @@
 console.log("this is my first express")
 //require express dependency to include express functionality
 const express = require('express')
-
 //create an express server
 const server = express();
+ 
+//require mongoose in your application alias create acess to mongoose
+const mongoose = require("mongoose")
+//create a mongoose server, aka database alias connect to database
+mongoose.connect("mongodb://localhost:27017/node-demo")
+//creating a database schema
+var nameSchema = new mongoose.Schema({
+   firstName: String,
+   lastName: String
+ });
+//creating a model from the schema
+var User = mongoose.model("User",nameSchema)
 
 //NB; install nodemon and add its start to the scripts in order to restart the server automatically
 /**call back function that tells the server what to do when the path is matched
