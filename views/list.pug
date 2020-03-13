@@ -1,0 +1,26 @@
+doctype html
+html
+  head
+    title List of users
+  body
+    table
+      thead
+        tr
+          th firstname
+          th lastname
+          th nickname
+          th nIN
+          th age
+          th occupation
+      tbody
+        each user in users
+          tr
+
+            td #{user.firstName}
+            td #{user.lastName}
+            td #{user.nickName}
+            td #{user.nIN}
+            td #{user.age}
+            td #{user.occupation}
+            
+

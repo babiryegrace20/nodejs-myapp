@@ -1,10 +1,119 @@
-html  
-    head
-        title This is my first Pug file
-    body
-        header
-            p My soon to be menu
-        section
-            p This is a post about Pug template engine, enjoy it!
-        footer
-            cool footer with lots of copyrights
+doctype html
+head
+  // Required meta tags
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+  meta(name='description' content='RegistrationForm')
+  meta(name='author' content='Babirye Grace')
+  meta(name='keywords' content='babiryegrace20')
+  // Title Page
+  title ExecutiveRegistrationForm
+  // Icons font CSS
+  link(href='vendor/mdi-font/css/material-design-iconic-font.min.css' rel='stylesheet' media='all')
+  link(href='vendor/font-awesome-4.7/css/font-awesome.min.css' rel='stylesheet' media='all')
+  // Font special for pages
+  link(href='https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i' rel='stylesheet')
+  // Vendor CSS
+  link(href='vendor/select2/select2.min.css' rel='stylesheet' media='all')
+  link(href='vendor/datepicker/daterangepicker.css' rel='stylesheet' media='all')
+  // Main CSS
+  link(href='css/main.css' rel='stylesheet' media='all')
+//
+  <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+  <div class="wrapper wrapper--w680">
+.card.card-4
+  div(w3-include-html='header.html')
+  .card-body
+    img(src='images/logo.PNG' alt='' style='margin-left: 500px; max-width: 60px;')
+    h2.title SalesExecutive Registeration
+    form(method='POST')
+      .row.row-space
+        .col-2
+          .input-group
+            label.label first name
+            input.input--style-4(type='text' name='first_name')
+        .col-2
+          .input-group
+            label.label last name
+            input.input--style-4(type='text' name='last_name')
+        //
+          </div>
+          <div class="row row-space">
+        .col-2
+          .input-group
+            label.label Current date
+            .input-group-icon
+              input.input--style-4.js-datepicker(type='text' name='current date')
+              i.zmdi.zmdi-calendar-note.input-icon.js-btn-calendar
+        .col-2
+          .input-group
+            label.label Gender
+            .p-t-10
+              label.radio-container.m-r-45
+                | Male
+                input(type='radio' checked='checked' name='gender')
+                span.checkmark
+              label.radio-container
+                | Female
+                input(type='radio' name='gender')
+                span.checkmark
+      .row.row-space
+        .col-2
+          .input-group
+            label.label Email
+            input.input--style-4(type='email' name='email')
+        .col-2
+          .input-group
+            label.label Phone Number
+            input.input--style-4(type='text' name='phone')
+        //
+          </div>
+          <div class="row row-space">
+        .col-2
+          .input-group
+            label.label UserName
+            input.input--style-4(type='text' name='username')
+        .col-2
+          .input-group
+            label.label Role
+            .rs-select2.js-select-simple.select--no-search
+              select(name='subject')
+                option(disabled='disabled' selected='selected') Choose option
+                option Supervisor
+                option Not Supervisor
+              .select-dropdown
+      .row.row-space
+        .col-2
+          .input-group
+            label.label Password
+            input.input--style-4(type='password' name='password')
+        .col-2
+          .input-group
+            label.label Id
+            input.input--style-4(type='text' name='id')
+        //
+          </div>
+          <div class="row row-space">
+        .col-2
+          .input-group
+            label.label Supervisor
+            input.input--style-4(type='text' name='supervisor')
+        .col-2
+          .input-group
+            label.label No. of working days
+            input.input--style-4(type='text' name='workingdays')
+      .p-t-15
+        button.btn.btn--radius-2.btn--blue(type='submit' style='margin-left: 180px;') Submit
+        button.btn.btn--radius-2.btn--red(type='submit' style='margin-left: 80px;') Cancel
+div(w3-include-html='footer.html')
+// Jquery JS
+script(src='js/jquery-3.4.1.js')
+script(src='vendor/jquery/jquery.min.js')
+// Vendor JS
+script(src='vendor/select2/select2.min.js')
+script(src='vendor/datepicker/moment.min.js')
+script(src='vendor/datepicker/daterangepicker.js')
+// Main JS
+script(src='js/global.js')
+script(src='js/include.js')
+// end document

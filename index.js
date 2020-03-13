@@ -10,7 +10,7 @@ const mongoose = require("mongoose")
 //require the body parser
 const bodyParser = require('body-parser')
 //use the bodyparser and pug middleware in our application
-//server.set('view engine', 'pug')
+server.set('view engine', 'pug')
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: true }))
 //create a mongoose server, aka database alias connect to database
@@ -26,7 +26,11 @@ function(err) {
 var nameSchema = new mongoose.Schema({
    firstName: String,
    lastName: String,
-   nickName: String
+   nickName: String,
+   nIN: String,
+   age: String,
+   occupation: String,
+
  });
 //creating a model from the schema(to be able to interface with our database)
 var User = mongoose.model("User",nameSchema)
@@ -35,12 +39,17 @@ var User = mongoose.model("User",nameSchema)
 /**call back function that tells the server what to do when the path is matched
  it takes two urguments; request and response
  use of arrow functions**/
- server.get('/', (req,res) => {
-  //res.render('index')
+ /**server.get('/', (req,res) => {
+  res.render('index')
   //__dirname so that node can locate your entire file path
-  res.sendFile(__dirname + '/index.html')
-})
+  //res.sendFile(__dirname + '/index.html')
+})**/
 
+server.get('/', (req,res) => {
+   //res.render('index')
+   //__dirname so that node can locate your entire file path
+   res.sendFile(__dirname + '/index.html')
+ })
 server.post('/addname', (req, res)=> {
    //res.send('Got a POST request')
    //console.log(req.body)
@@ -48,25 +57,37 @@ server.post('/addname', (req, res)=> {
    var myData = new User(req.body)
   myData.save()
     .then(item => {
-      res.send("item saved to database")
+      //res.send("item saved to database")
+      res.redirect('/userlist')
     })
     .catch(err => {
       res.status(400).send("unable to save to database")
     })
 })
 
-server.put('/user', (req, res)=> {
-//res.send('Got a PUT request at /user')
+//another route to access the list of entered data
+server.get('/userlist', (req, res)=>{
+User.find()
+.then(items=>{
+   res.render('list', {users: items})
 })
-//to acess a certain route by parameters
-server.get('/users/:name', (req, res)=>{
-   res.send('Hello' + req.params.name)
+.catch(err=> {
+   res.status(400).send("unable to find items in the database")
+})
 })
 
+//server.put('/user', (req, res)=> {
+//res.send('Got a PUT request at /user')
+//})
+//to acess a certain route by parameters
+//server.get('/users/:name', (req, res)=>{
+   //res.send('Hello' + req.params.name)
+//})
+
 //to specify a query parameter
-server.get('/users/', (req, res)=>{
+/**server.get('/users/', (req, res)=>{
    res.send('This is class' + req.query.class + 'cohort' + req.query.cohort)
-})
+})**/
 //To render a custom cool error page by default in case the path specified above doesnt exist
 server.get('*', (req, res)=>{
    res.send('error')
