@@ -50,19 +50,31 @@ server.get('/', (req,res) => {
    //__dirname so that node can locate your entire file path
    res.sendFile(__dirname + '/index.html')
  })
-server.post('/addname', (req, res)=> {
+server.post('/addname', async(req, res)=> {
    //res.send('Got a POST request')
    //console.log(req.body)
+   //refactoring the code for saving to the database with try and catch block of code
+   try{
+      var myData = new User(req.body)
+      await myData.save()
+      console.log('Item has been saved')
+      res.redirect('/userlist')
+
+   }
+   catch (error){
+   res.status(400).send("unable to save to database") 
+
+   }
    //saving data to the database
-   var myData = new User(req.body)
-  myData.save()
+   /**var myData = new User(req.body)
+   myData.save()
     .then(item => {
       //res.send("item saved to database")
       res.redirect('/userlist')
     })
     .catch(err => {
       res.status(400).send("unable to save to database")
-    })
+    })**/
 })
 
 //another route to access the list of entered data
