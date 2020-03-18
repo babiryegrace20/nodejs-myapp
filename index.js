@@ -1,14 +1,20 @@
 console.log("this is my first express")
 //require express dependency to include express functionality
 const express = require('express')
-//create an express server
-const server = express()
- 
-//require mongoose in your application alias create acess to mongoose
-const mongoose = require("mongoose")
-
 //require the body parser
 const bodyParser = require('body-parser')
+//require mongoose in your application alias create acess to mongoose to cater for database connection
+const mongoose = require("mongoose")
+//make our model accessible by this file
+const User = require('./models/userModel')
+//make our routes accessible by this file
+const userRoutes = require('./routes/userRoutes')
+
+
+//create an express server
+const server = express()
+//use userRoutes file in our work
+server.use('/', userRoutes)
 //use the bodyparser and pug middleware in our application
 server.set('view engine', 'pug')
 server.use(bodyParser.json())
@@ -22,18 +28,7 @@ function(err) {
    console.log('Successfully connected')
 }
 )
-//creating(defining) a database schema
-var nameSchema = new mongoose.Schema({
-   firstName: String,
-   lastName: String,
-   nickName: String,
-   nIN: String,
-   age: String,
-   occupation: String,
 
- });
-//creating a model from the schema(to be able to interface with our database)
-var User = mongoose.model("User",nameSchema)
 
 //NB; install nodemon and add its start to the scripts in order to restart the server automatically
 /**call back function that tells the server what to do when the path is matched
@@ -45,7 +40,7 @@ var User = mongoose.model("User",nameSchema)
   //res.sendFile(__dirname + '/index.html')
 })**/
 
-server.get('/', (req,res) => {
+/**server.get('/', (req,res) => {
    //res.render('index')
    //__dirname so that node can locate your entire file path
    res.sendFile(__dirname + '/index.html')
@@ -75,10 +70,10 @@ server.post('/addname', async(req, res)=> {
     .catch(err => {
       res.status(400).send("unable to save to database")
     })**/
-})
+//})
 
 //another route to access the list of entered data
-server.get('/userlist', (req, res)=>{
+/**server.get('/userlist', (req, res)=>{
 User.find()
 .then(items=>{
    res.render('list', {users: items})
@@ -86,8 +81,16 @@ User.find()
 .catch(err=> {
    res.status(400).send("unable to find items in the database")
 })
-})
-
+})**/
+//refactored code for another route to access the list of entered data
+/**server.get('/userlist',async(req, res) => {
+   try {
+     let items = await User.find()
+     res.render('list', { users: items })
+   } catch (err) {
+     res.status(400).send("unable to find items in the database");
+   }
+ })
 //server.put('/user', (req, res)=> {
 //res.send('Got a PUT request at /user')
 //})
