@@ -4,7 +4,8 @@ const express = require('express')
 const router = express.Router()
 //make the modles accessible to this file
 const User = require('../models/userModel')
-const path = require('path');
+const path = require('path')
+
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../views', 'index.html'));
   })
@@ -13,16 +14,19 @@ router.get('/', (req, res) => {
   //__dirname so that node can locate your entire file path
   res.sendFile('/Users/GRACE/Desktop/refactory/myapp/index.html')
 })**/
-router.post('/addname', async(req, res)=> {
-  //refactoring the code for saving to the database with try and catch block of code
+router.post("/", async(req, res)=> {
   try{
-     var myData = new User(req.body)
-     await myData.save()
-     console.log('Item has been saved')
-     res.redirect('/userlist')
+     var user = new User(req.body)
+     await User.register(user, req.body.firstName, (err)=>{
+       if (err) {throw err}
+       res.redirect('/login')
+     })
+    //  console.log('Item has been saved')
+    //  res.redirect('/userlist')
 
   }
   catch (error){
+  console.log(error)
   res.status(400).send("unable to save to database") 
 
   }
@@ -40,6 +44,10 @@ router.get('/userlist',async(req, res) => {
   } catch (err) {
     res.status(400).send("unable to find items in the database");
   }
+})
+
+router.get('/home', (req, res) =>{
+  res.render('register')
 })
 //exporting the routers
 module.exports = router 

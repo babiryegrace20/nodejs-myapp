@@ -1,6 +1,6 @@
 //require mongoose in your application alias create acess to mongoose
 const mongoose = require("mongoose")
-
+const passportLocalMongoose = require("passport-local-mongoose")
 //creating(defining) a database schema
 var nameSchema = new mongoose.Schema({
   firstName: String,
@@ -15,4 +15,5 @@ var nameSchema = new mongoose.Schema({
 //model variables always begin with capital letters
 var User = mongoose.model("User",nameSchema)
 //export the model so that we can acess it
+nameSchema.plugin(passportLocalMongoose, {usernameField: 'firstName'})
 module.exports = mongoose.model("User",nameSchema)

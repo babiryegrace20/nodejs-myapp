@@ -2,23 +2,28 @@ console.log("this is my first express")
 //require express dependency to include express functionality
 const express = require('express')
 //require the body parser
-const bodyParser = require('body-parser')
+var bodyParser = require('body-parser')
 //require mongoose in your application alias create acess to mongoose to cater for database connection
 const mongoose = require("mongoose")
+//make our routes accessible by this file
+const registerRoutes = require('./routes/registerRoutes')
+const loginRoutes = require('./routes/loginRoutes')
+const passport = require('passport')
 //make our model accessible by this file
 const User = require('./models/userModel')
-//make our routes accessible by this file
-const userRoutes = require('./routes/userRoutes')
+
 
 
 //create an express server
 const server = express()
-//use userRoutes file in our work
-server.use('/', userRoutes)
+const port = 3000
+
 //use the bodyparser and pug middleware in our application
 server.set('view engine', 'pug')
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: true }))
+server.use(passport.initialize())
+
 //create a mongoose server, aka database alias connect to database
 //introducing an error function as a callback which throws the error incase there is one
 //node-demo is the name of the database that will be created in mongodb
@@ -29,7 +34,14 @@ function(err) {
 }
 )
 
+//in order to be able to use the required passport in your application
+/**passport.use(User.createStrategy())
+passport.serializeUser(User.serializeUser)
+passport.deserializeUser(User.deserializeUser)**/
 
+//use userRoutes file in our work
+server.use('/register', registerRoutes)
+server.use('/login', loginRoutes)
 //NB; install nodemon and add its start to the scripts in order to restart the server automatically
 /**call back function that tells the server what to do when the path is matched
  it takes two urguments; request and response
@@ -110,6 +122,6 @@ server.get('*', (req, res)=>{
  
 //have a server to listen to requests from browsers using the listen function from express
 server.listen(3000, function() {
-   console.log('listening on 3000')
+   console.log('listening on 3000'+ port)
 })
 
