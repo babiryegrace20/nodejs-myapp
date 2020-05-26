@@ -1,38 +1,41 @@
-console.log("this is my first express")
+console.log("this is my first express");
 //require express dependency to include express functionality
-const express = require('express')
+const express = require("express");
+//importing the chalking package
+const chalk = require("chalk");
+const _ = require("lodash")
 //require the body parser
-var bodyParser = require('body-parser')
+var bodyParser = require("body-parser");
 //require mongoose in your application alias create acess to mongoose to cater for database connection
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 //make our routes accessible by this file
-const registerRoutes = require('./routes/registerRoutes')
-const loginRoutes = require('./routes/loginRoutes')
-const passport = require('passport')
+const registerRoutes = require("./routes/registerRoutes");
+const loginRoutes = require("./routes/loginRoutes");
+const passport = require("passport");
 //make our model accessible by this file
-const User = require('./models/userModel')
-
-
+const User = require("./models/userModel");
 
 //create an express server
-const server = express()
-const port = 3000
+const server = express();
+const port = 3000;
 
 //use the bodyparser and pug middleware in our application
-server.set('view engine', 'pug')
-server.use(bodyParser.json())
-server.use(bodyParser.urlencoded({ extended: true }))
-server.use(passport.initialize())
+server.set("view engine", "pug");
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ extended: true }));
+server.use(passport.initialize());
 
 //create a mongoose server, aka database alias connect to database
 //introducing an error function as a callback which throws the error incase there is one
 //node-demo is the name of the database that will be created in mongodb
-mongoose.connect("mongodb://localhost:27017/node-demo", {useNewUrlParser: true, useUnifiedTopology: true}, 
-function(err) {
-   if (err) throw err
-   console.log('Successfully connected')
-}
-)
+mongoose.connect(
+  "mongodb://localhost:27017/node-demo",
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  function (err) {
+    if (err) throw err;
+    console.log("Successfully connected");
+  }
+);
 
 //in order to be able to use the required passport in your application
 /**passport.use(User.createStrategy())
@@ -40,13 +43,13 @@ passport.serializeUser(User.serializeUser)
 passport.deserializeUser(User.deserializeUser)**/
 
 //use userRoutes file in our work
-server.use('/register', registerRoutes)
-server.use('/login', loginRoutes)
+server.use("/register", registerRoutes);
+server.use("/login", loginRoutes);
 //NB; install nodemon and add its start to the scripts in order to restart the server automatically
 /**call back function that tells the server what to do when the path is matched
  it takes two urguments; request and response
  use of arrow functions**/
- /**server.get('/', (req,res) => {
+/**server.get('/', (req,res) => {
   res.render('index')
   //__dirname so that node can locate your entire file path
   //res.sendFile(__dirname + '/index.html')
@@ -116,12 +119,15 @@ User.find()
    res.send('This is class' + req.query.class + 'cohort' + req.query.cohort)
 })**/
 //To render a custom cool error page by default in case the path specified above doesnt exist
-server.get('*', (req, res)=>{
-   res.send('error')
-})
- 
-//have a server to listen to requests from browsers using the listen function from express
-server.listen(3000, function() {
-   console.log('listening on 3000'+ port)
-})
+server.get("*", (req, res) => {
+  res.send("error");
+});
 
+//have a server to listen to requests from browsers using the listen function from express
+server.listen(3000, function () {
+  console.log("listening on 3000" + port);
+});
+//compose combined style and normal string
+console.log(chalk.red("hello world") + " Uganda");
+//compose multiple styles and normal string
+console.log(chalk.blue.bgCyan("the sky"));
